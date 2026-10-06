@@ -13,6 +13,10 @@ public class Produto {
         this.unidadesDisponiveis = unidadesDisponiveis;
     }
 
+    public void reducaoEstoque(Integer quantidadeComprada) {
+        setUnidadesDisponiveis(getUnidadesDisponiveis() - quantidadeComprada);
+    }
+
     public Long getId() {
         return id;
     }
