@@ -13,6 +13,10 @@ public class Pedido {
         this.itens = itens;
     }
 
+    public void adicionarItem(ItemPedido itemPedido) {
+        itens.add(itemPedido);
+    }
+
     public Long getId() {
         return id;
     }
@@ -35,5 +39,10 @@ public class Pedido {
 
     public void setItens(List<ItemPedido> itens) {
         this.itens = itens;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + id + "\n Cliente: " + cliente + "\nItens: " + itens;
     }
 }

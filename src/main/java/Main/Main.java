@@ -1,5 +1,7 @@
 package Main;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Main {
@@ -14,8 +16,16 @@ public class Main {
         Optional<Produto> produto = cadastroProduto.buscarProId(1L);
         Produto produtoEncontrado = produto.get();
 
-        ItemPedido itemPedido = new ItemPedido(produtoEncontrado, 1);
+        ItemPedido itemPedido = new ItemPedido(produtoEncontrado, 2);
+        produtoEncontrado.reducaoEstoque(2);
 
         System.out.println("Item pedido: " + itemPedido);
+
+        List<ItemPedido> itemPedidos = new ArrayList<>();
+        itemPedidos.add(itemPedido);
+
+        Pedido pedido = new Pedido(1L, clienteEncontrado, itemPedidos);
+
+        System.out.println(pedido);
     }
 }
