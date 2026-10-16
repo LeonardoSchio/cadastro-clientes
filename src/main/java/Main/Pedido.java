@@ -17,6 +17,15 @@ public class Pedido {
         itens.add(itemPedido);
     }
 
+    public double calcularTotalPedido() {
+        double subtotal = 0;
+
+        for (ItemPedido itemPedido : itens) {
+            subtotal += itemPedido.getProduto().getPreco() * itemPedido.getQuantidadeComprada();
+        }
+        return subtotal;
+    }
+
     public Long getId() {
         return id;
     }

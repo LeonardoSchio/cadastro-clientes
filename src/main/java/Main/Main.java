@@ -13,11 +13,17 @@ public class Main {
 
         CadastroProduto cadastroProduto = new CadastroProduto();
         cadastroProduto.adicionarProduto(new Produto(1L, "Computador", 5500.00, 25));
-        Optional<Produto> produto = cadastroProduto.buscarProId(1L);
+        cadastroProduto.adicionarProduto(new Produto(2L, "Mouse", 400, 4));
+        Optional<Produto> produto = cadastroProduto.buscarPorId(1L);
         Produto produtoEncontrado = produto.get();
 
         ItemPedido itemPedido = new ItemPedido(produtoEncontrado, 2);
-        produtoEncontrado.reducaoEstoque(2);
+        //produtoEncontrado.reducaoEstoque(2);
+
+        boolean result = produtoEncontrado.reducaoEstoque(78);
+
+        System.out.println("Resultado: " + result);
+        System.out.println("Estoque restante: " + produtoEncontrado.getUnidadesDisponiveis());
 
         System.out.println("Item pedido: " + itemPedido);
 
@@ -27,5 +33,10 @@ public class Main {
         Pedido pedido = new Pedido(1L, clienteEncontrado, itemPedidos);
 
         System.out.println(pedido);
+
+        System.out.println("Total do pedido: " + pedido.calcularTotalPedido());
+
+        ProcessadorPedidos processadorPedidos = new ProcessadorPedidos();
+        processadorPedidos.processarCompra(1L, clienteEncontrado, produtoEncontrado, 3);
     }
 }

@@ -13,11 +13,14 @@ public class Produto {
         this.unidadesDisponiveis = unidadesDisponiveis;
     }
 
-    public void reducaoEstoque(Integer quantidadeComprada) {
-        if (getUnidadesDisponiveis() < quantidadeComprada) {
-            System.out.println("Compra inválida, unidades disponivéis é menor que a quantidade comprada");
+    public boolean reducaoEstoque(Integer quantidadeComprada) {
+        if (quantidadeComprada <= 0) {
+            return false; // Quantidade é 0. Compra inválida.
+        } else if (getUnidadesDisponiveis() < quantidadeComprada) {
+            return false; //Compra inválida, unidades disponivéis é menor que a quantidade comprada.
         } else {
             setUnidadesDisponiveis(getUnidadesDisponiveis() - quantidadeComprada);
+            return true;
         }
     }
 

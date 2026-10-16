@@ -11,14 +11,14 @@ public class CadastroProduto {
         produtos.add(produto);
     }
 
-    public Optional<Produto> buscarProId(Long id) {
+    public Optional<Produto> buscarPorId(Long id) {
         return produtos.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst();
     }
 
     public boolean atualizarProdutos(Long id, String nome, double preco, Integer unidadesDisponiveis) {
-        Optional<Produto> produtoA = buscarProId(id);
+        Optional<Produto> produtoA = buscarPorId(id);
 
         if (produtoA.isPresent()) {
             Produto produto = produtoA.get();
@@ -32,7 +32,7 @@ public class CadastroProduto {
     }
 
     public boolean removerPorId(Long id) {
-        Optional<Produto> produto = buscarProId(id);
+        Optional<Produto> produto = buscarPorId(id);
 
         if (produto.isPresent()) {
             produtos.remove(produto.get());
