@@ -1,5 +1,6 @@
 package Main;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,5 +39,8 @@ public class Main {
 
         ProcessadorPedidos processadorPedidos = new ProcessadorPedidos();
         processadorPedidos.processarCompra(1L, clienteEncontrado, produtoEncontrado, 3);
+
+        Connection conexao = Conexao.conectar();
+        System.out.println(conexao);
     }
 }
