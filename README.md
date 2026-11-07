@@ -7,9 +7,9 @@ Projeto desenvolvido em Java com o objetivo de criar um sistema para cadastro e 
 
 O projeto está sendo desenvolvido de forma incremental, aplicando na prática conceitos de Programação Orientada a Objetos, Collections, Generics, Exceptions, Stream API e SQL.
 
-Atualmente, o sistema Java utiliza Collections para armazenar os dados em memória, enquanto a estrutura do banco de dados MySQL e suas operações SQL já foram desenvolvidas separadamente.
+Atualmente, o sistema Java utiliza Collections para armazenar os dados em memória, enquanto a estrutura do banco de dados MariaDB e suas operações SQL já foram desenvolvidas separadamente.
 
-A integração entre Java e MySQL utilizando JDBC será implementada nas próximas etapas.
+A integração entre Java e MariaDB utilizando JDBC está em desenvolvimento. A conexão com o banco de dados já foi estabelecida com sucesso.
 
 ## 🚀 Funcionalidades
 
@@ -28,8 +28,9 @@ A integração entre Java e MySQL utilizando JDBC será implementada nas próxim
 
 - Java
 - SQL
-- MySQL
-- JDBC (próxima etapa)
+- MariaDB
+- JDBC
+- MySQL Connector/J
 - Maven
 - IntelliJ IDEA
 - Git e GitHub
@@ -37,6 +38,7 @@ A integração entre Java e MySQL utilizando JDBC será implementada nas próxim
 ## 📚 Conceitos praticados
 
 ### Java
+
 - Programação Orientada a Objetos (POO)
 - Encapsulamento
 - Herança
@@ -50,6 +52,7 @@ A integração entre Java e MySQL utilizando JDBC será implementada nas próxim
 - Tratamento de exceções
 
 ### SQL
+
 - Criação de bancos de dados e tabelas
 - PRIMARY KEY e FOREIGN KEY
 - INSERT, SELECT, UPDATE e DELETE
@@ -59,6 +62,12 @@ A integração entre Java e MySQL utilizando JDBC será implementada nas próxim
 - Views
 - Transações
 - COMMIT e ROLLBACK
+
+### JDBC
+
+- Adição do driver JDBC ao Maven
+- Configuração da conexão com MariaDB
+- Estabelecimento de conexão entre Java e banco de dados
 
 ## 📁 Estrutura do projeto
 
@@ -77,6 +86,7 @@ cadastro-clientes/
 │   │   │       ├── CadastroClientes.java
 │   │   │       ├── CadastroProduto.java
 │   │   │       ├── Cliente.java
+│   │   │       ├── Conexao.java
 │   │   │       ├── ItemPedido.java
 │   │   │       ├── Main.java
 │   │   │       ├── Pedido.java
