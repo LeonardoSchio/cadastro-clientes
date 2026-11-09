@@ -1,12 +1,13 @@
 package Main;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         CadastroClientes cadastroClientes = new CadastroClientes();
         cadastroClientes.adicionar(new Cliente(1L, "Leonardo Schio", "leos@gmail.com", 24, 250.50));
         Optional<Cliente> cliente = cadastroClientes.buscarPorId(1L);
@@ -42,5 +43,15 @@ public class Main {
 
         Connection conexao = Conexao.conectar();
         System.out.println(conexao);
+
+        CadastroClientes clientes = new CadastroClientes();
+        clientes.listarClientesDoBanco();
+
+        Cliente cliente1 = new Cliente(null, "Elias Eduardo Leonard", "eliasel@gmail.com", 24, 7000);
+
+        CadastroClientes cadastroClientes1 = new CadastroClientes();
+        cadastroClientes1.cadastrarClienteNoBanco(cliente1);
+
+
     }
 }

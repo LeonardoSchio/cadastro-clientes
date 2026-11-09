@@ -3,6 +3,10 @@ package Main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CadastroClientes {
     private List<Cliente> clientes = new ArrayList<>();
@@ -72,6 +76,39 @@ public class CadastroClientes {
                 // em uma DoubleStream."
                 .sum(); // --> Você pensou certinho: o dado já é um double. O .mapToDouble() serve apenas para avisar a Stream
         // que ela agora transporta números puros, desbloqueando o método .sum() para fazer o cálculo de uma vez só!
+    }
+
+    public void listarClientesDoBanco() throws SQLException {
+        Connection conexao = Conexao.conectar();
+
+        String sql = "SELECT nome, email, idade, saldoCompras FROM clientes";
+
+        PreparedStatement comando = conexao.prepareStatement(sql);
+        ResultSet resultado = comando.executeQuery();
+
+        while (resultado.next()) {
+            String nome = resultado.getString("nome");
+            String email = resultado.getString("email");
+            int idade = resultado.getInt("idade");
+            double saldoCompras = resultado.getDouble("saldoCompras");
+
+            System.out.println("Nome: " + nome + "\nE-mail: " + email + "\nIdade: " + idade + "\nSaldoCompras: " + saldoCompras);
+        }
+    }
+
+    public void cadastrarClienteNoBanco(Cliente cliente) throws SQLException {
+        Connection connection = Conexao.conectar();
+
+        String sql = "INSERT INTO clientes (nome, email, idade, saldoCompras) VALUES (?, ?, ?, ?)";
+
+        PreparedStatement comand = connection.prepareStatement(sql);
+
+        comand.setString(1, cliente.getNome());
+        comand.setString(2, cliente.getEmail());
+        comand.setInt(3, cliente.getIdade());
+        comand.setDouble(4, cliente.getSaldoCompras());
+
+        int linhasAfetadas = comand.executeUpdate();
     }
 
     @Override
