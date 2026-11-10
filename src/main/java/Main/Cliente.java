@@ -8,6 +8,22 @@ public class Cliente {
     private double saldoCompras;
 
     public Cliente(Long id, String nome, String email, Integer idade, double saldoCompras) {
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome não pode estar vazio.");
+        }
+
+        if (email == null || email.isBlank() || !email.contains("@")) {
+            throw new IllegalArgumentException("E-mail inválido.");
+        }
+
+        if (idade == null || idade <= 0) {
+            throw new IllegalArgumentException("Idade inválida.");
+        }
+
+        if (saldoCompras < 0) {
+            throw new IllegalArgumentException("Saldo inválido.");
+        }
+
         this.id = id;
         this.nome = nome;
         this.email = email;

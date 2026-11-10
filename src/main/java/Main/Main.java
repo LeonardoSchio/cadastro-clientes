@@ -52,6 +52,7 @@ public class Main {
         CadastroClientes cadastroClientes1 = new CadastroClientes();
         cadastroClientes1.cadastrarClienteNoBanco(cliente1);
 
-
+        Cliente cliente2 = new Cliente(1L, "Leo", "leoz@gmail.com", 24, -600);
+        System.out.println(cliente2);
     }
 }
