@@ -79,36 +79,44 @@ public class CadastroClientes {
     }
 
     public void listarClientesDoBanco() throws SQLException {
-        Connection conexao = Conexao.conectar();
+        try (Connection conexao = Conexao.conectar()) {
+            if (conexao == null) {
+                System.out.println("Não foi possível conectar ao banco.");
+                return;
+            }
 
-        String sql = "SELECT nome, email, idade, saldoCompras FROM clientes";
+            String sql = "SELECT nome, email, idade, saldoCompras FROM clientes";
 
-        PreparedStatement comando = conexao.prepareStatement(sql);
-        ResultSet resultado = comando.executeQuery();
+            try (PreparedStatement comand = conexao.prepareStatement(sql); ResultSet resultado = comand.executeQuery()) {
+                while (resultado.next()) {
+                    String nome = resultado.getString("nome");
+                    String email = resultado.getString("email");
+                    int idade = resultado.getInt("idade");
+                    double saldoCompras = resultado.getDouble("saldoCompras");
 
-        while (resultado.next()) {
-            String nome = resultado.getString("nome");
-            String email = resultado.getString("email");
-            int idade = resultado.getInt("idade");
-            double saldoCompras = resultado.getDouble("saldoCompras");
-
-            System.out.println("Nome: " + nome + "\nE-mail: " + email + "\nIdade: " + idade + "\nSaldoCompras: " + saldoCompras);
+                    System.out.println("Nome: " + nome + "\nE-mail: " + email + "\nIdade: " + idade + "\nSaldoCompras: " + saldoCompras);
+                }
+            }
         }
     }
 
     public void cadastrarClienteNoBanco(Cliente cliente) throws SQLException {
-        Connection connection = Conexao.conectar();
-
         String sql = "INSERT INTO clientes (nome, email, idade, saldoCompras) VALUES (?, ?, ?, ?)";
 
-        PreparedStatement comand = connection.prepareStatement(sql);
+        try (Connection connection = Conexao.conectar()) {
+            if (connection == null) {
+                System.out.println("Não foi possível conectar ao banco.");
+                return;
+            }
+            try (PreparedStatement comand = connection.prepareStatement(sql)) {
+                comand.setString(1, cliente.getNome());
+                comand.setString(2, cliente.getEmail());
+                comand.setInt(3, cliente.getIdade());
+                comand.setDouble(4, cliente.getSaldoCompras());
 
-        comand.setString(1, cliente.getNome());
-        comand.setString(2, cliente.getEmail());
-        comand.setInt(3, cliente.getIdade());
-        comand.setDouble(4, cliente.getSaldoCompras());
-
-        int linhasAfetadas = comand.executeUpdate();
+                int linhasAfetadas = comand.executeUpdate();
+            }
+        }
     }
 
     @Override
