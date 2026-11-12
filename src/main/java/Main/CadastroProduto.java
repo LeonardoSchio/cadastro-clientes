@@ -86,6 +86,51 @@ public class CadastroProduto {
         }
     }
 
+    public void consultarProdutoPorId(Long id) throws SQLException {
+        try (Connection connection = Conexao.conectar()) {
+            if (connection == null) {
+                System.out.println("Não foi possível conectar ao banco.");
+                return;
+            }
+
+            String sql = "SELECT id, nome, preco, unidadesDisponiveis FROM produtos WHERE id = ?";
+
+            try (PreparedStatement comand = connection.prepareStatement(sql)) {
+                comand.setLong(1, id);
+
+                try (ResultSet resultSet = comand.executeQuery()) {
+                    if (resultSet.next()) {
+                        System.out.println(resultSet.getLong("id"));
+                        System.out.println(resultSet.getString("nome"));
+                        System.out.println(resultSet.getDouble("preco"));
+                        System.out.println(resultSet.getInt("unidadesDisponiveis"));
+                    } else {
+                        System.out.println("Produto não encontrado.");
+                    }
+                }
+            }
+        }
+    }
+
+    public void atualizarPrecoEEstoque(Long id, double novoPreco, int novoEstoque) throws SQLException {
+        try (Connection connection = Conexao.conectar()) {
+            if (connection == null) {
+                System.out.println("Não foi possível conectar ao banco.");
+                return;
+            }
+
+            String sql = "UPDATE produtos SET preco = ?, unidadesDisponiveis = ? WHERE id = ?";
+
+            try (PreparedStatement comand = connection.prepareStatement(sql)) {
+                comand.setDouble(1, novoPreco);
+                comand.setInt(2, novoEstoque);
+                comand.setLong(3, id);
+
+                int linhasAfetadas = comand.executeUpdate();
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return produtos.toString();

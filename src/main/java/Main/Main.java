@@ -56,10 +56,10 @@ public class Main {
 //        System.out.println(cliente2);
 
         CadastroProduto cadastroProduto1 = new CadastroProduto();
-        cadastroProduto1.listarProdutosDoBanco();
+        cadastroProduto1.consultarProdutoPorId(999L);
 
-        Produto produto = new Produto(null, "Monitor", 1200, 45);
-
-        cadastroProduto1.cadastrarProdutoNoBanco(produto);
+//        Produto produto = new Produto(null, "Monitor", 1200, 45);
+//
+//        cadastroProduto1.cadastrarProdutoNoBanco(produto);
     }
 }
