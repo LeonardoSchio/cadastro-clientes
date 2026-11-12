@@ -7,6 +7,18 @@ public class Produto {
     private Integer unidadesDisponiveis;
 
     public Produto(Long id, String nome, double preco, Integer unidadesDisponiveis) {
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome não pode estar vazio.");
+        }
+
+        if (preco <= 0) {
+            throw new IllegalArgumentException("Preço inválido.");
+        }
+
+        if (unidadesDisponiveis == null || unidadesDisponiveis <= 0) {
+            throw new IllegalArgumentException("Unidades indisponíveis.");
+        }
+
         this.id = id;
         this.nome = nome;
         this.preco = preco;

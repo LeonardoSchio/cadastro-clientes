@@ -1,5 +1,9 @@
 package Main;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +43,47 @@ public class CadastroProduto {
             return true;
         }
         return false;
+    }
+
+    public void listarProdutosDoBanco() throws SQLException {
+        try (Connection connection = Conexao.conectar()) {
+            if (connection == null) {
+                System.out.println("Não foi possível conectar ao banco.");
+                return;
+            }
+
+            String sql = "SELECT nome, preco, unidadesDisponiveis FROM produtos";
+
+            try (PreparedStatement comand = connection.prepareStatement(sql);
+                 ResultSet resultSet = comand.executeQuery()) {
+                while (resultSet.next()) {
+                    String nome = resultSet.getString("nome");
+                    double preco = resultSet.getDouble("preco");
+                    int unidadesDisponiveis = resultSet.getInt("unidadesDisponiveis");
+
+                    System.out.println("Nome: " + nome + "\nPreço: " + preco + "\nUnidades disponíveis: " + unidadesDisponiveis);
+                }
+            }
+        }
+    }
+
+    public void cadastrarProdutoNoBanco(Produto produto) throws SQLException {
+        try (Connection connection = Conexao.conectar()) {
+            if (connection == null) {
+                System.out.println("Não foi possível conectar ao banco.");
+                return;
+            }
+
+            String sql = "INSERT INTO produtos (nome, preco, unidadesDisponiveis) VALUES (?, ?, ?)";
+
+            try (PreparedStatement comand = connection.prepareStatement(sql)) {
+                comand.setString(1, produto.getNome());
+                comand.setDouble(2, produto.getPreco());
+                comand.setInt(3, produto.getUnidadesDisponiveis());
+
+                int linhasAfetadas = comand.executeUpdate();
+            }
+        }
     }
 
     @Override
