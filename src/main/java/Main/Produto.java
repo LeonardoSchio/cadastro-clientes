@@ -36,6 +36,15 @@ public class Produto {
         }
     }
 
+    public boolean verificarEstoque(Integer quantidadeComprada) {
+        if (quantidadeComprada <= 0) {
+            return false;
+        } else if (getUnidadesDisponiveis() < quantidadeComprada) {
+            return false;
+        }
+        return true;
+    }
+
     public Long getId() {
         return id;
     }

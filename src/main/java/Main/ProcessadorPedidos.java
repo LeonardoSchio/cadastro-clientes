@@ -1,26 +1,47 @@
 package Main;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProcessadorPedidos {
-    public void processarCompra(Long idPedido, Cliente cliente, Produto produto, Integer quantidade) {
-        boolean compraAprovada = produto.reducaoEstoque(quantidade);
+    public void processarCompra(Pedido pedido) {
+        for (ItemPedido itemPedido : pedido.getItens()) {
+            Produto produto = itemPedido.getProduto();
+            Integer quantidade = itemPedido.getQuantidadeComprada();
 
-        if (!compraAprovada) {
-            System.out.println("Compra recusada: estoque insuficiente ou quantidade inválida.");
-            return;
+            if (!produto.verificarEstoque(quantidade)) {
+                System.out.println("Pedido recusado.");
+                return;
+            }
         }
 
-        ItemPedido itemPedido = new ItemPedido(produto, quantidade);
+        for (ItemPedido itemPedido : pedido.getItens()) {
+            Produto produto = itemPedido.getProduto();
+            Integer quantidade = itemPedido.getQuantidadeComprada();
 
-        List<ItemPedido> itens = new ArrayList<>();
+            if (produto.reducaoEstoque(quantidade)) {
+                System.out.println("Redução no estoque feita com sucesso.");
+            }
+        }
+    }
 
-        itens.add(itemPedido);
+    public void cadastrarPedidoNoBanco(Pedido pedido) throws SQLException {
+        try (Connection connection = Conexao.conectar()) {
+            if (connection == null) {
+                System.out.println("Não foi possível conectar ao banco.");
+                return;
+            }
 
-        Pedido pedido = new Pedido(idPedido, cliente, itens);
+            String sql = "INSERT INTO pedidos (cliente_id) VALUES (?)";
 
-        System.out.println(pedido);
-        System.out.println("Total do pedido: " + pedido.calcularTotalPedido());
+            try (PreparedStatement comand = connection.prepareStatement(sql)) {
+                comand.setLong(1, pedido.getCliente().getId());
+
+                int linhasAfetadas = comand.executeUpdate();
+            }
+        }
     }
 }
